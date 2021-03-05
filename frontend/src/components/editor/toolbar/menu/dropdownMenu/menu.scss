@@ -1,0 +1,72 @@
+$buttonHoverBG: rgba(218, 216, 216, 0.726);
+
+.menu{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    white-space: nowrap;
+    &.active{
+        background: $buttonHoverBG;
+        .subMenu{
+            opacity: 1;
+            top: 40px;
+            pointer-events: initial;
+        }
+    }
+    .menuArrow{
+        padding-left: 5px;
+        width: 10px;
+    }
+    .subMenu{
+        white-space: nowrap;
+        min-width: fit-content;
+        position: absolute;
+        transition: .4s;
+        font-size: 14px;
+        transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+        top: 20px;
+        left: 0;
+        opacity: 0;
+        pointer-events: none;
+        background: white;
+        box-shadow: 1px 2px 5px gray;
+        border-radius: 6px;
+        padding: 5px 0;
+        z-index: 99;
+        li{
+            .subMenuCheck{
+                width: .6rem;
+                padding-right: 10px;
+                height: auto;
+                fill: transparent;
+                &.active{
+                    fill: rgb(112, 190, 105);
+                }
+            }
+            list-style: none;
+            padding: 5px 10px;
+            z-index: 1;
+            cursor: pointer;
+            transition: .2s;
+            &:hover{
+                background: $buttonHoverBG;
+            }
+        }
+    }
+}
+
+.linkSubMenu{
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    margin: 0 10px;
+    input{
+        margin-right: 5px;
+        padding: 0 5px;
+        margin: 5px 0;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', sans-serif;
+        border-radius: 6px;
+        outline: none;
+        border: 1px solid rgb(30, 159, 219);
+    }
+}

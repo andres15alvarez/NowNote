@@ -1,0 +1,35 @@
+$toolBarFontSize: 1rem;
+$toolBarFontFamily: sans-serif;
+.toolbar {
+  border:solid 1px #ddd;
+  background:#f4f4f4;
+  padding: 5px;
+  border-radius:6px;
+  .options{
+    *{
+        user-select: none;
+      }
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: fit-content;
+      button, .button{
+        border: none;
+        background: transparent;
+        outline: none;
+        padding: 10px;
+        transition: .3s;
+        font-size: $toolBarFontSize;
+        font-family: $toolBarFontFamily;
+        border-radius: 8px;
+        margin-left: 2px;
+        cursor: pointer;
+        &:hover, &.activeButton{
+          background: rgba(218, 216, 216, 0.726);
+        }
+      }
+    }
+  }
+  .hidden {
+    display: none;
+  }
