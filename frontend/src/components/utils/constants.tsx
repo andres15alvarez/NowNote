@@ -4,7 +4,7 @@ import { Redo, Tab } from "./svg/menuArrow";
 
 export const customInlineStyleFontSize = ["FONTSIZE_8", "FONTSIZE_9", "FONTSIZE_10", "FONTSIZE_12", "FONTSIZE_14", "FONTSIZE_16", "FONTSIZE_18", "FONTSIZE_20", "FONTSIZE_24", "FONTSIZE_30", "FONTSIZE_36", "FONTSIZE_48",]
 
-export const customInlineStyleFontFamily = ["FONTFAMILY_Sans Serif", "FONTFAMILY_MonoSpace", "FONTFAMILY_Arial"]
+export const customInlineStyleFontFamily = ["FONTFAMILY_sans-serif", "FONTFAMILY_MonoSpace", "FONTFAMILY_Arial"]
 
 export const INLINE_STYLES = [
     { label: <Bold />, style: 'BOLD' },

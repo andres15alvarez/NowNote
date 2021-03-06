@@ -12,7 +12,6 @@ const { useState } = React;
 const processStyleMap = () => {
     const fontSizes = customInlineStyleFontSize.map(fontSize => fontSize.split("_")[1]);
     const fontFamilies = customInlineStyleFontFamily.map(fontSize => fontSize);
-    console.log(fontFamilies)
     let styleMap: any = {
         'HIGHLIGHT': {
             'backgroundColor': '#faed27',
@@ -88,29 +87,33 @@ export const EditorBody = () => {
     }
 
     return (
-        <div className="editorPanel">
-            <Toolbar
-                setEditorState={setEditorState}
-                editorState={editorState}
-            />
-            <input type="text" className="titleInput" name="title" id="title" placeholder="Titulo" />
-            <div
-                className="editorBorder"
-                onClick={focusEditor}
-            >
-                <Editor
-                    customStyleMap={processStyleMap()}
+        <>
+            <div className="editorPanel">
+                <Toolbar
+                    setEditorState={setEditorState}
                     editorState={editorState}
-                    handleKeyCommand={handleKeyCommand}
-                    keyBindingFn={mapKeyToEditorCommand}
-                    onChange={setEditorState}
-                    blockStyleFn={MyBlockStyleFn}
-                    placeholder="Write something!"
-                    ref={editor}
-                    spellCheck={true}
                 />
             </div>
-        </div>
+            <div className="editorBody">
+                <input type="text" className="titleInput" name="title" id="title" placeholder="Titulo" />
+                <div
+                    className="editorBorder"
+                    onClick={focusEditor}
+                >
+                    <Editor
+                        customStyleMap={processStyleMap()}
+                        editorState={editorState}
+                        handleKeyCommand={handleKeyCommand}
+                        keyBindingFn={mapKeyToEditorCommand}
+                        onChange={setEditorState}
+                        blockStyleFn={MyBlockStyleFn}
+                        placeholder="Write something!"
+                        ref={editor}
+                        spellCheck={true}
+                    />
+                </div>
+            </div>
+        </>
     );
 }
 

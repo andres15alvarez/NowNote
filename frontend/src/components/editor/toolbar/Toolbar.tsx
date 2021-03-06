@@ -37,7 +37,6 @@ export const Toolbar: React.FC<ToolbarProps> = ({ setEditorState, editorState })
     const [fontSize, setFontSize] = useState(initialStates.initialFontSize());
     const [fontFamily, setFontFamily] = useState(initialStates.initialFontFamily());
     const [url, setUrl] = useState('');
-
     useEffect(() => {
         const textAlign = getSelectedBlock(editorState).getData().get('text-align');
         let newAlign = [...align];
