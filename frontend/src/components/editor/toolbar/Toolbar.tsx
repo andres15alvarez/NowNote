@@ -26,14 +26,18 @@ const initialStates = {
         let fontFamily = customInlineStyleFontFamily.map(font => ({ name: font, component: font.split("_")[1], active: false }));
         fontFamily[0].active = true;
         return fontFamily;
+    },
+    initialAlign: () => {
+        return [
+            { name: "left", component: <AlignLeft />, active: true },
+            { name: "center", component: <AlignCenter />, active: false },
+            { name: "right", component: <AlignEnd />, active: false }];
     }
 }
 
 export const Toolbar: React.FC<ToolbarProps> = ({ setEditorState, editorState }) => {
-    const [align, setAlign] = useState([
-        { name: "left", component: <AlignLeft />, active: true },
-        { name: "center", component: <AlignCenter />, active: false },
-        { name: "right", component: <AlignEnd />, active: false }]);
+    const [open, setOpen] = useState("");
+    const [align, setAlign] = useState(initialStates.initialAlign());
     const [fontSize, setFontSize] = useState(initialStates.initialFontSize());
     const [fontFamily, setFontFamily] = useState(initialStates.initialFontFamily());
     const [url, setUrl] = useState('');
@@ -133,6 +137,8 @@ export const Toolbar: React.FC<ToolbarProps> = ({ setEditorState, editorState })
         e.preventDefault();
     }
 
+    const handleOpenMenu = (name: string) => setOpen(prev => prev == name ? "" : name)
+
     return (
         <div className='toolbar' onMouseDown={preventClearSelection}>
             <div className="options">
@@ -148,11 +154,17 @@ export const Toolbar: React.FC<ToolbarProps> = ({ setEditorState, editorState })
                     className="button"
                     subMenuItems={fontSize}
                     onClickSubMenuItem={handleFontSizeClick}
+                    name="fontSizeMenu"
+                    handleClickMenu={handleOpenMenu}
+                    open={open}
                 />
                 <Menu
                     className="button"
                     subMenuItems={fontFamily}
                     onClickSubMenuItem={handleFontFamilyClick}
+                    name="fontFamilyMenu"
+                    handleClickMenu={handleOpenMenu}
+                    open={open}
                 />
                 <Menu
                     className="button"
@@ -164,15 +176,17 @@ export const Toolbar: React.FC<ToolbarProps> = ({ setEditorState, editorState })
                     />}
                     onClickSubMenuItem={handleAlignClick}
                     defaultItem={<Link />}
+                    name="linkMenu"
+                    handleClickMenu={handleOpenMenu}
+                    open={open}
                 />
-                <div id='url-input' className='hidden'>
-                    <input id='txtFormatUrl' placeholder='url' />
-                    <button>Create Link</button>
-                </div>
                 <Menu
                     className="button"
                     subMenuItems={align}
                     onClickSubMenuItem={handleAlignClick}
+                    name="alignMenu"
+                    handleClickMenu={handleOpenMenu}
+                    open={open}
                 />
                 <TabControls
                     editorState={editorState}

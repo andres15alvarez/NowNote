@@ -12,20 +12,18 @@ type subMenuItemsProp = {
 
 interface MenuProps {
     className?: string,
+    name: string,
+    open: string,
     subMenuItems: subMenuItemsProp | JSX.Element,
     onClickSubMenuItem: any,
     defaultItem?: any,
+    handleClickMenu: any,
 }
 
-export const Menu: React.FC<MenuProps> = ({ className, subMenuItems, onClickSubMenuItem, defaultItem }) => {
-    const [open, setOpen] = useState(false);
-    const handleClickMenu = (e: any) => {
-        if (e.target.tagName === "INPUT") return;
-        setOpen(prev => !prev)
-    }
+export const Menu: React.FC<MenuProps> = ({ className, subMenuItems, onClickSubMenuItem, defaultItem, name, open, handleClickMenu }) => {
     return (
         <>
-            <div className={`menu ${className} ${open ? "active" : ""}`} onClick={handleClickMenu}>
+            <div className={`menu ${className} ${open === name ? "active" : ""}`} onClick={() => handleClickMenu(name)}>
                 {defaultItem ? defaultItem : (subMenuItems as subMenuItemsProp).map((item: any) => {
                     if (item.active) return item.component;
                     return '';
