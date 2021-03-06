@@ -42,3 +42,21 @@ export const createNewContentState = (editorState: EditorState, blockListFunc: (
     });
     return EditorState.push(editorState, newContentState, "change-block-data");
 }
+
+export const removeStylesWithPrefix = (editorState: EditorState, prefix: string) => {
+    let newContentState = editorState.getCurrentContent();
+    const selectionState = editorState.getSelection();
+    getSelectedBlocksList(editorState).forEach((data: ContentBlock) => {
+        const characterList = data.getCharacterList().toArray();
+        let removeStyles = new Set();
+        characterList.forEach(character => {
+            const currentCharStyles = character.getStyle().toArray().filter(style => style.startsWith(prefix));
+            currentCharStyles.forEach(style => removeStyles.add(style))
+        })
+        removeStyles.forEach(style => {
+            newContentState = Modifier.removeInlineStyle(newContentState, selectionState, style as string);
+        })
+    })
+    let newEditorState = EditorState.push(editorState, newContentState, "change-inline-style");
+    return newEditorState;
+}

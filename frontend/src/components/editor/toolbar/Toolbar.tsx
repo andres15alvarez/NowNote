@@ -3,11 +3,12 @@ import "./Toolbar.scss";
 import { AlignLeft, AlignCenter, AlignEnd } from "../../utils/svg/Align";
 import { Link } from "../../utils/svg/link";
 import { Menu } from "./menu/dropdownMenu/Menu";
-import { EditorState, RichUtils, Modifier, SelectionState, ContentBlock } from "draft-js";
+import { EditorState, RichUtils, Modifier, SelectionState, ContentBlock, CharacterMetadata, Editor, ContentState } from "draft-js";
 import { InlineStyleControls, BlockStyleControls, LinkStyleControls, TabControls, RedoControls } from "./menu/controls";
-import { getSelectedBlock } from "draftjs-utils";
-import { onTab } from '../editorFunctions/editorFunctions';
+import { getSelectedBlock, getSelectedBlocksList, getSelectionCustomInlineStyle, getCurrentInlineStyle } from "draftjs-utils";
+import { onTab, removeStylesWithPrefix } from '../editorFunctions/editorFunctions';
 import { createNewContentState } from "../editorFunctions/editorFunctions";
+import { customInlineStyleFontSize, customInlineStyleFontFamily } from "../../utils/constants";
 const { useState, useEffect } = React;
 
 interface ToolbarProps {
@@ -15,35 +16,26 @@ interface ToolbarProps {
     editorState: EditorState
 }
 
-const initialFontSize = [
-    { name: "FONTSIZE_8", component: "8", active: false },
-    { name: "FONTSIZE_9", component: "9", active: false },
-    { name: "FONTSIZE_10", component: "10", active: false },
-    { name: "FONTSIZE_12", component: "12", active: false },
-    { name: "FONTSIZE_14", component: "14", active: false },
-    { name: "FONTSIZE_16", component: "16", active: true },
-    { name: "FONTSIZE_18", component: "18", active: false },
-    { name: "FONTSIZE_20", component: "20", active: false },
-    { name: "FONTSIZE_24", component: "24", active: false },
-    { name: "FONTSIZE_30", component: "30", active: false },
-    { name: "FONTSIZE_36", component: "36", active: false },
-    { name: "FONTSIZE_48", component: "48", active: false },
-]
-
-const initialFontFamily = [
-    { name: "Sans Serif", component: "Sans Serif", active: true },
-    { name: "Times New Roman", component: "Times New Roman", active: false },
-    { name: "MonoSpace", component: "Monospace", active: false },
-    { name: "Arial", component: "Arial", active: false },
-]
+const initialStates = {
+    initialFontSize: () => {
+        let fontSize = customInlineStyleFontSize.map(font => ({ name: font, component: font.split("_")[1], active: false }));
+        fontSize[5].active = true;
+        return fontSize;
+    },
+    initialFontFamily: () => {
+        let fontFamily = customInlineStyleFontFamily.map(font => ({ name: font, component: font.split("_")[1], active: false }));
+        fontFamily[0].active = true;
+        return fontFamily;
+    }
+}
 
 export const Toolbar: React.FC<ToolbarProps> = ({ setEditorState, editorState }) => {
     const [align, setAlign] = useState([
         { name: "left", component: <AlignLeft />, active: true },
         { name: "center", component: <AlignCenter />, active: false },
         { name: "right", component: <AlignEnd />, active: false }]);
-    const [fontSize, setFontSize] = useState(initialFontSize);
-    const [fontFamily, setFontFamily] = useState(initialFontFamily);
+    const [fontSize, setFontSize] = useState(initialStates.initialFontSize());
+    const [fontFamily, setFontFamily] = useState(initialStates.initialFontFamily());
     const [url, setUrl] = useState('');
 
     useEffect(() => {
@@ -113,33 +105,28 @@ export const Toolbar: React.FC<ToolbarProps> = ({ setEditorState, editorState })
 
     const handleFontSizeClick = ({ item, idx }: any) => {
         let newFontSize = [...fontSize];
-        const prevFontSize = fontSize.filter(item => item.active === true);
         const fontSizeName = item['name'];
         newFontSize = newFontSize.map((_item, index) => {
             _item.active = index === idx;
             return _item;
         })
-        let newState = RichUtils.toggleInlineStyle(editorState, prevFontSize[0].name);
+        let newState = removeStylesWithPrefix(editorState, "FONTSIZE_");
         newState = RichUtils.toggleInlineStyle(newState, fontSizeName);
-        console.log(getSelectedBlock(newState).toJS())
         setEditorState(newState);
         setFontSize(newFontSize);
     }
 
     const handleFontFamilyClick = ({ item, idx }: any) => {
         let newFontFamily = [...fontFamily];
-        const prevFontFamily = fontFamily.filter(font => font.active === true);
         const fontFamilyName = item['name'];
         newFontFamily.map((_item, index) => {
             _item.active = index === idx;
             return _item;
         });
-        let newContentState = editorState.getCurrentContent();
-        const selectionState = editorState.getSelection();
-        newContentState = Modifier.removeInlineStyle(newContentState, selectionState, prevFontFamily[0].name);
-        newContentState = Modifier.applyInlineStyle(newContentState, selectionState, fontFamilyName);
-        const newState = EditorState.push(editorState, newContentState, "change-inline-style");
+        let newState = removeStylesWithPrefix(editorState, "FONTFAMILY_");
+        newState = RichUtils.toggleInlineStyle(newState, fontFamilyName);
         setEditorState(newState);
+        setFontFamily(newFontFamily);
     }
 
     const preventClearSelection = (e: any) => {

@@ -6,11 +6,13 @@ import "draft-js/dist/Draft.css";
 import { decorator } from "../../decorator/decorator";
 import { onTab } from './editorFunctions/editorFunctions';
 import { getSelectedBlocksList } from "draftjs-utils";
+import { customInlineStyleFontSize, customInlineStyleFontFamily } from "../utils/constants";
 const { useState } = React;
 
 const processStyleMap = () => {
-    const fontSizes = [8, 9, 10, 12, 14, 16, 18, 20, 24, 30, 36, 48];
-    const fontFamilies = ["Sans Serif", "Serif", "MonoSpace", "Arial"]
+    const fontSizes = customInlineStyleFontSize.map(fontSize => fontSize.split("_")[1]);
+    const fontFamilies = customInlineStyleFontFamily.map(fontSize => fontSize);
+    console.log(fontFamilies)
     let styleMap: any = {
         'HIGHLIGHT': {
             'backgroundColor': '#faed27',
@@ -23,7 +25,7 @@ const processStyleMap = () => {
     })
     fontFamilies.forEach(fontFamily => {
         styleMap[fontFamily] = {
-            'fontFamily': `${fontFamily}`
+            'fontFamily': `${fontFamily.split("_")[1]}`
         };
     })
     return styleMap;
