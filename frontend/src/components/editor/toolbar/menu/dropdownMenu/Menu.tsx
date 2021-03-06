@@ -23,7 +23,7 @@ interface MenuProps {
 export const Menu: React.FC<MenuProps> = ({ className, subMenuItems, onClickSubMenuItem, defaultItem, name, open, handleClickMenu }) => {
     return (
         <>
-            <div className={`menu ${className} ${open === name ? "active" : ""}`} onClick={() => handleClickMenu(name)}>
+            <div className={`menu ${className} ${open === name ? "active" : ""}`} onClick={(e) => handleClickMenu(name, e)}>
                 {defaultItem ? defaultItem : (subMenuItems as subMenuItemsProp).map((item: any) => {
                     if (item.active) return item.component;
                     return '';

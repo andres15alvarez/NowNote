@@ -1,0 +1,41 @@
+[33mcommit 980bee2d168ce674761ed2fb3d07d565b09842ab[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Kevin <chengkev2000@gmail.com>
+Date:   Sat Mar 6 14:18:24 2021 -0400
+
+    added scroll feature
+
+[33mcommit 982a09e0a6a910edb0867b98158e46f9e4cad58c[m
+Author: Kevin <chengkev2000@gmail.com>
+Date:   Sat Mar 6 12:25:38 2021 -0400
+
+    fixed initial font family
+
+[33mcommit 0f9dff2f7426549f5e6fcb4bac31e104e94ea71c[m
+Author: Kevin <chengkev2000@gmail.com>
+Date:   Sat Mar 6 11:10:59 2021 -0400
+
+    fixed customInlineStyle removal's bug
+
+[33mcommit 18e103822caed49fa76e8f2793f03f15419d0a9c[m
+Author: Kevin <chengkev2000@gmail.com>
+Date:   Fri Mar 5 12:13:20 2021 -0400
+
+    added progress on editor
+
+[33mcommit 289766e14096d96e1488b16638f96eb06c25f712[m
+Author: Kevin <chengkev2000@gmail.com>
+Date:   Thu Feb 25 17:25:30 2021 -0400
+
+    setted all parts of the project
+
+[33mcommit 681e3cd5cdb7397df460676141454ebc10c1e628[m
+Author: Kevin <chengkev2000@gmail.com>
+Date:   Thu Feb 25 17:10:50 2021 -0400
+
+    separated file structures
+
+[33mcommit 67763fc9b6dd4c95f1943f583e80c95d464b73b6[m
+Author: Andres Alvarez <andres15alvarez@gmail.com>
+Date:   Thu Feb 25 16:41:26 2021 -0400
+
+    First commit

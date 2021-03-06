@@ -137,7 +137,10 @@ export const Toolbar: React.FC<ToolbarProps> = ({ setEditorState, editorState })
         e.preventDefault();
     }
 
-    const handleOpenMenu = (name: string) => setOpen(prev => prev == name ? "" : name)
+    const handleOpenMenu = (name: string, e: any) => {
+        if (e.target.tagName === 'INPUT') return;
+        setOpen(prev => prev == name ? "" : name)
+    }
 
     return (
         <div className='toolbar' onMouseDown={preventClearSelection}>

@@ -15,7 +15,6 @@ $toolBarFontFamily: sans-serif;
       width: fit-content;
       button, .button{
         border: none;
-        background: transparent;
         outline: none;
         padding: 10px;
         transition: .3s;
@@ -27,6 +26,9 @@ $toolBarFontFamily: sans-serif;
         &:hover, &.activeButton{
           background: rgba(218, 216, 216, 0.726);
         }
+      }
+      button{
+        background: transparent;
       }
     }
   }

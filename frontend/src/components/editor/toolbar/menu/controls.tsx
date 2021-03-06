@@ -16,10 +16,14 @@ interface linkStyleProps {
 }
 
 export const StyleButton = ({ active, style, label, onToggle }: any) => {
+    const handleClick = (e: any) => {
+        e.preventDefault();
+        onToggle(style);
+    }
     return (
         <button
             className={active ? "activeButton" : ""}
-            onClick={e => onToggle(style)}
+            onClick={handleClick}
         >
             {label}
         </button>
