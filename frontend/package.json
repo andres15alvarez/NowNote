@@ -3,14 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@draft-js-plugins/anchor": "^4.1.2",
+    "@draft-js-plugins/buttons": "^4.1.0",
+    "@draft-js-plugins/editor": "^4.1.0",
+    "@draft-js-plugins/hashtag": "^4.1.0",
+    "@draft-js-plugins/inline-toolbar": "^4.1.1",
+    "@draft-js-plugins/linkify": "^4.1.0",
+    "@draft-js-plugins/side-toolbar": "^4.1.0",
+    "@draft-js-plugins/static-toolbar": "^4.1.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "css-modules": "^0.3.0",
     "draft-js": "^0.11.7",
     "draftjs-utils": "^0.10.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
     "react-scripts": "4.0.3",
+    "redux": "^4.0.5",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -41,6 +52,7 @@
     "@types/draft-js": "^0.10.44",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
+    "@types/react-redux": "^7.1.16",
     "sass": "^1.32.8",
     "typescript": "^4.2.3"
   }

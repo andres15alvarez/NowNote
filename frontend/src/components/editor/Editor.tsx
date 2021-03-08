@@ -1,9 +1,10 @@
 import React from 'react';
+import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
 import { Toolbar } from './toolbar/Toolbar';
 import "./Editor.scss";
 import { Editor, EditorState, RichUtils, getDefaultKeyBinding, ContentBlock } from "draft-js";
 import "draft-js/dist/Draft.css";
-import { decorator } from "../../decorator/decorator";
+import { decorator } from "./decorator/decorator";
 import { onTab } from './editorFunctions/editorFunctions';
 import { getSelectedBlocksList } from "draftjs-utils";
 import { customInlineStyleFontSize, customInlineStyleFontFamily } from "../utils/constants";
@@ -34,11 +35,10 @@ export const EditorBody = () => {
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty(decorator)
     );
-    const editor = React.useRef(null);
-    function focusEditor() {
-        //@ts-ignore
-        editor.current.focus();
-    }
+    const hoverHyperLink = useSelector((state: RootStateOrAny) => state.storeReducer.hoverHyperLink);
+    const editor = React.useRef<Editor>(null);
+    const focusEditor = () => editor.current?.focus()
+
     const handleKeyCommand: any = (command: string, editorState: EditorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (!newState) return false;
@@ -85,7 +85,6 @@ export const EditorBody = () => {
             paragraph.push(`richText-tab-${tab}`)
         return paragraph.join(" ");
     }
-
     return (
         <>
             <div className="editorPanel">
@@ -109,7 +108,7 @@ export const EditorBody = () => {
                         blockStyleFn={MyBlockStyleFn}
                         placeholder="Write something!"
                         ref={editor}
-                        spellCheck={true}
+                        readOnly={false}
                     />
                 </div>
             </div>

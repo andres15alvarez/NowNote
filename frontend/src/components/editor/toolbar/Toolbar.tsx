@@ -6,14 +6,14 @@ import { Menu } from "./menu/dropdownMenu/Menu";
 import { EditorState, RichUtils, Modifier, SelectionState, ContentBlock, CharacterMetadata, Editor, ContentState } from "draft-js";
 import { InlineStyleControls, BlockStyleControls, LinkStyleControls, TabControls, RedoControls } from "./menu/controls";
 import { getSelectedBlock, getSelectedBlocksList, getSelectionCustomInlineStyle, getCurrentInlineStyle } from "draftjs-utils";
-import { onTab, removeStylesWithPrefix } from '../editorFunctions/editorFunctions';
+import { addLink, onTab, removeStylesWithPrefix } from '../editorFunctions/editorFunctions';
 import { createNewContentState } from "../editorFunctions/editorFunctions";
 import { customInlineStyleFontSize, customInlineStyleFontFamily } from "../../utils/constants";
 const { useState, useEffect } = React;
 
 interface ToolbarProps {
     setEditorState: React.Dispatch<React.SetStateAction<EditorState>>,
-    editorState: EditorState
+    editorState: EditorState,
 }
 
 const initialStates = {
@@ -37,10 +37,10 @@ const initialStates = {
 
 export const Toolbar: React.FC<ToolbarProps> = ({ setEditorState, editorState }) => {
     const [open, setOpen] = useState("");
+    const [url, setUrl] = useState('');
     const [align, setAlign] = useState(initialStates.initialAlign());
     const [fontSize, setFontSize] = useState(initialStates.initialFontSize());
     const [fontFamily, setFontFamily] = useState(initialStates.initialFontFamily());
-    const [url, setUrl] = useState('');
     useEffect(() => {
         const textAlign = getSelectedBlock(editorState).getData().get('text-align');
         let newAlign = [...align];
@@ -69,29 +69,16 @@ export const Toolbar: React.FC<ToolbarProps> = ({ setEditorState, editorState })
     };
 
     const toggleLink = () => {
-        const contentState = editorState.getCurrentContent();
-        let parsedUrl = url;
-        if (!/(http|https):\/\/www/.test(parsedUrl)) parsedUrl = 'http://www.' + parsedUrl;
-        const contentStateWithEntity = contentState.createEntity('LINK', 'MUTABLE', {
-            url: parsedUrl,
-        });
-        const selection = editorState.getSelection();
-        const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-        const contentStateWithLink = Modifier.applyEntity(contentStateWithEntity, selection, entityKey);
-        const newEditorState = EditorState.set(editorState, {
-            currentContent: contentStateWithLink,
-        });
-        setEditorState(RichUtils.toggleLink(newEditorState, selection, entityKey))
+        const newEditorState = addLink(editorState, url);
+        setEditorState(newEditorState);
     }
 
     const toggleTab = (value: string) => setEditorState(onTab(editorState, value))
 
     const toggleRedo = (value: string) => {
         let newEditor = editorState;
-        if (+value > 0)
-            newEditor = EditorState.redo(newEditor);
-        else if (+value < 0)
-            newEditor = EditorState.undo(newEditor);
+        if (+value > 0) newEditor = EditorState.redo(newEditor);
+        else if (+value < 0) newEditor = EditorState.undo(newEditor);
         setEditorState(newEditor);
     }
 

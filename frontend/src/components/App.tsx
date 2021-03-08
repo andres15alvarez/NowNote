@@ -1,12 +1,15 @@
 import React from 'react';
 import { EditorBody } from './editor/Editor';
-import './App.css';
-
+import { CustomSideToolbarEditor } from './editor4/Editor';
+import { Provider } from "react-redux";
+import { store } from "./store";
 function App() {
   return (
-    <div className="app">
-      <EditorBody />
-    </div>
+    <Provider store={store}>
+      <div className="app">
+        <CustomSideToolbarEditor />
+      </div>
+    </Provider>
   );
 }
 

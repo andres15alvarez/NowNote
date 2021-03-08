@@ -1,5 +1,5 @@
 
-import { ContentBlock, ContentState, EditorState, Modifier, SelectionState } from "draft-js";
+import { ContentBlock, ContentState, EditorState, Modifier, RichUtils, SelectionState } from "draft-js";
 import { getSelectedBlocksList } from "draftjs-utils";
 
 export const onTab = (editorState: EditorState, direction: string): EditorState => {
@@ -32,6 +32,22 @@ export const onTab = (editorState: EditorState, direction: string): EditorState 
     }
 
     return newState;
+}
+
+export const addLink = (editorState: EditorState, url: string) => {
+    let parsedUrl = url;
+    const contentState = editorState.getCurrentContent();
+    if (!/(http|https):\/\/www/.test(parsedUrl)) parsedUrl = 'http://www.' + parsedUrl;
+    const contentStateWithEntity = contentState.createEntity('LINK', 'MUTABLE', {
+        url: parsedUrl,
+    });
+    const selection = editorState.getSelection();
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const contentStateWithLink = Modifier.applyEntity(contentStateWithEntity, selection, entityKey);
+    const newEditorState = EditorState.set(editorState, {
+        currentContent: contentStateWithLink,
+    });
+    return RichUtils.toggleLink(newEditorState, selection, entityKey);
 }
 
 export const createNewContentState = (editorState: EditorState, blockListFunc: (data: ContentBlock, newContentState: ContentState) => ContentState): EditorState => {
